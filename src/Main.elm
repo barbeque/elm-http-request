@@ -5,6 +5,8 @@ import Html.Events exposing (..)
 import Http
 import Json.Decode exposing (Decoder, field, string)
 
+import Json.Decode.Pipeline exposing (requiredAt)
+
 -- MAIN
 
 
@@ -113,6 +115,6 @@ getRandomCatGif =
 
 gifDecoder : Decoder CatGifResult
 gifDecoder =
-  Json.Decode.map2 CatGifResult
-    ( Json.Decode.at ["data", "image_url"] string )
-    ( Json.Decode.at ["data", "id"] string )
+  Json.Decode.succeed CatGifResult
+    |> requiredAt ["data", "image_url"] string
+    |> requiredAt ["data", "id"] string
